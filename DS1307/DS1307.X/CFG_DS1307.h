@@ -8,7 +8,7 @@
 #ifndef CFG_DS1307_H
 #define	CFG_DS1307_H
 
-#include "../../../Reloj_V1.0/RELOJ_LCD_16x2.X/CFG_16F877A.h"
+#include "../../../Reloj_V1/RELOJ_LCD_16x2.X/CFG_16F877A.h"
 
 #define   _Dir_DS1307_W     0xD0
 #define   _Dir_DS1307_R     0xD1
