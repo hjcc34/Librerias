@@ -47,7 +47,6 @@
 #define   Dia_semana_limite 8
 #define   AM_PM_limite      3
 
-void CFG_DS1307 (void);
 
 #endif	/* CFG_DS1307_H */
 

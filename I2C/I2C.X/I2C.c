@@ -67,6 +67,13 @@ void I2C_Cmd(unsigned char Dir,unsigned char Cfg,unsigned char Cmd)
     while (SSPCON2bits.ACKSTAT == 1)                                            //verifico reconocimiento
     {
     }
+//********************************Stop******************************************
+    I2C_Check();
+    SSPCON2bits.PEN = 1;                                                        //activo stop
+    __delay_us(5);
+    while (SSPSTATbits.P == 0)                                                  //verifico si termino el stop
+    {
+    }    
 }
 //------------------------------------------------------------------------------
 //-----------------------------I2C WRITE----------------------------------------
@@ -144,17 +151,5 @@ void I2C_Read_8bits(void)
     {
     }
     DATO_I2C_8bits = SSPBUF;
-}
-//------------------------------------------------------------------------------
-//-----------------------------I2C STOP-----------------------------------------
-//------------------------------------------------------------------------------
-void I2C_P(void)
-{
-    I2C_Check();
-    SSPCON2bits.PEN = 1;                                                        //activo stop
-    __delay_us(5);
-    while (SSPSTATbits.P == 0)                                                  //verifico si termino el stop
-    {
-    }
 }
 //------------------------------------------------------------------------------
