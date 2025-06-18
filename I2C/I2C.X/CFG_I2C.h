@@ -9,7 +9,7 @@
 #define	CFG_I2C_H
 
 #include <xc.h>
-#include "../../../Reloj_V1.0/RELOJ_LCD_16x2.X/CFG_16F877A.h"
+#include "../../../Reloj_V1/RELOJ_LCD_16x2.X/CFG_16F877A.h"
 
 unsigned char DATO_I2C_8bits,DATO_I2C_16bits,variable_fallo_I2C;
 
