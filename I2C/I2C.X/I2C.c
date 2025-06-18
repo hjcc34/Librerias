@@ -44,10 +44,6 @@ void I2C_Cmd(unsigned char Dir,unsigned char Cfg,unsigned char Cmd)
     I2C_Check();
     while (SSPCON2bits.ACKSTAT == 1)                                            //verifico reconocimiento
     {
-        if (variable_fallo_I2C == 0)
-        {
-
-        }
     }
     I2C_Check();                                                                //verifico el bus
     SSPBUF = Cfg;                                                               //ingreso configuracion para esclavo
@@ -130,7 +126,7 @@ void I2C_Write(unsigned char DirW,unsigned char CmdW,unsigned char DirW2)
 //------------------------------------------------------------------------------
 //---------------------------I2C READ 8 BITS------------------------------------
 //------------------------------------------------------------------------------
-void I2C_Read_8bits(void)
+unsigned char I2C_Read_8bits(void)
 { 
     I2C_Check();                                                                //verifico el bus
     SSPCON2bits.RCEN = 1;                                                       //configuro maestro como recepcion
@@ -150,6 +146,6 @@ void I2C_Read_8bits(void)
     while (SSPSTATbits.P == 0)                                                  //verifico si termino el stop
     {
     }
-    DATO_I2C_8bits = SSPBUF;
+    return DATO_I2C_8bits;
 }
 //------------------------------------------------------------------------------
