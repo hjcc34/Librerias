@@ -44,6 +44,7 @@ void I2C_Cmd(unsigned char Dir,unsigned char Cfg,unsigned char Cmd)
     I2C_Check();
     while (SSPCON2bits.ACKSTAT == 1)                                            //verifico reconocimiento
     {
+        
     }
     I2C_Check();                                                                //verifico el bus
     SSPBUF = Cfg;                                                               //ingreso configuracion para esclavo
