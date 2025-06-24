@@ -10,7 +10,7 @@
 
 #include "../../../Reloj_V1/RELOJ_LCD_16x2.X/CFG_16F877A.h"
 
-unsigned char DATO_I2C_8bits;
+unsigned char DATO_I2C_8bits,re;
 
 void I2C_Check(void);                                                           
 void I2C_Write(unsigned char DirW,unsigned char CmdW,unsigned char DirW2);

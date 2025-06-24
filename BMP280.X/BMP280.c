@@ -8,138 +8,37 @@ void ini_bmp280 (void)
     {
     }
     I2C_Cmd(_bmp280_w,_bmp280_reg_reset,_bmp280_reset);
-    I2C_Cmd(_bmp280_w,_bmp280_ctrl_mes,0x33);
+    I2C_Cmd(_bmp280_w,_bmp280_ctrl_mes,_mode_sleep);
+    I2C_Cmd(_bmp280_w,_bmp280_CFG,0x00);
+    I2C_Cmd(_bmp280_w,_bmp280_ctrl_mes,0x47);
 }
 //------------------------------------------------------------------------------
-/*
 void CALIBRATION_BMP280(void)
 {
-    unsigned char i;
-    for (i=88;i<0xA1;i++)
+    unsigned char w;
+    for (w=0;w<24;w++)
     {
-    I2C_Write(0xEE,i,0xEF);
-    SSPBUFmsb = DATO_I2C_8bits;
+        unsigned char a = 0x88;
+        a += w;
+        I2C_Write(_bmp280_w,a,_bmp280_r);
+        cal_data[w] = I2C_Read_8bits();
     }
-//******************************************************************************    
-    I2C_Write(0xEE,0x89,0xEF);
-    I2C_Read_8bits();
-    SSPBUFmsb = DATO_I2C_8bits;
-    I2C_Write(0xEE,0x88,0xEF);
-    I2C_Read_8bits();
-    SSPBUFlsb = DATO_I2C_8bits; 
-    dig_T1 = SSPBUFmsb + SSPBUFlsb;
-//******************************************************************************
-    I2C_Write(0xEE,0x8B,0xEF);
-    I2C_Read_8bits();
-    SSPBUFmsb = DATO_I2C_8bits;
-    I2C_Write(0xEE,0x8A,0xEF);
-    I2C_Read_8bits();
-    SSPBUFlsb = DATO_I2C_8bits; 
-    dig_T2 = SSPBUFmsb + SSPBUFlsb;
-//******************************************************************************
-    I2C_Write(0xEE,0x8D,0xEF);
-    I2C_Read_8bits();
-    SSPBUFmsb = DATO_I2C_8bits;
-    I2C_Write(0xEE,0x8C,0xEF);
-    I2C_Read_8bits();
-    SSPBUFlsb = DATO_I2C_8bits; 
-    dig_T3 = SSPBUFmsb + SSPBUFlsb;
-//******************************************************************************
-    I2C_Write(0xEE,0x8F,0xEF);
-    I2C_Read_8bits();
-    SSPBUFmsb = DATO_I2C_8bits;
-    I2C_Write(0xEE,0x8E,0xEF);
-    I2C_Read_8bits();
-    SSPBUFlsb = DATO_I2C_8bits; 
-    dig_P1 = SSPBUFmsb + SSPBUFlsb;
-//******************************************************************************
-    I2C_Write(0xEE,0x91,0xEF);
-    I2C_Read_8bits();
-    SSPBUFmsb = DATO_I2C_8bits;
-    I2C_Write(0xEE,0x90,0xEF);
-    I2C_Read_8bits();
-    SSPBUFlsb = DATO_I2C_8bits; 
-    dig_P2 = SSPBUFmsb + SSPBUFlsb;
-//******************************************************************************
-    I2C_Write(0xEE,0x93,0xEF);
-    I2C_Read_8bits();
-    SSPBUFmsb = DATO_I2C_8bits;
-    I2C_Write(0xEE,0x92,0xEF);
-    I2C_Read_8bits();
-    SSPBUFlsb = DATO_I2C_8bits; 
-    dig_P3 = SSPBUFmsb + SSPBUFlsb;
-//******************************************************************************
-    I2C_Write(0xEE,0x95,0xEF);
-    I2C_Read_8bits();
-    SSPBUFmsb = DATO_I2C_8bits;
-    I2C_Write(0xEE,0x94,0xEF);
-    I2C_Read_8bits();
-    SSPBUFlsb = DATO_I2C_8bits; 
-    dig_P4 = SSPBUFmsb + SSPBUFlsb;
-//******************************************************************************
-    I2C_Write(0xEE,0x97,0xEF);
-    I2C_Read_8bits();
-    SSPBUFmsb = DATO_I2C_8bits;
-    I2C_Write(0xEE,0x96,0xEF);
-    I2C_Read_8bits();
-    SSPBUFlsb = DATO_I2C_8bits; 
-    dig_P5 = SSPBUFmsb + SSPBUFlsb;
-//******************************************************************************
-    I2C_Write(0xEE,0x99,0xEF);
-    I2C_Read_8bits();
-    SSPBUFmsb = DATO_I2C_8bits;
-    I2C_Write(0xEE,0x98,0xEF);
-    I2C_Read_8bits();
-    SSPBUFlsb = DATO_I2C_8bits; 
-    dig_P6 = SSPBUFmsb + SSPBUFlsb;
-//******************************************************************************
-    I2C_Write(0xEE,0x9B,0xEF);
-    I2C_Read_8bits();
-    SSPBUFmsb = DATO_I2C_8bits;
-    I2C_Write(0xEE,0x9A,0xEF);
-    I2C_Read_8bits();
-    SSPBUFlsb = DATO_I2C_8bits; 
-    dig_P7 = SSPBUFmsb + SSPBUFlsb;
-//******************************************************************************
-    I2C_Write(0xEE,0x9D,0xEF);
-    I2C_Read_8bits();
-    SSPBUFmsb = DATO_I2C_8bits;
-    I2C_Write(0xEE,0x9C,0xEF);
-    I2C_Read_8bits();
-    SSPBUFlsb = DATO_I2C_8bits; 
-    dig_P8 = SSPBUFmsb + SSPBUFlsb;
-//******************************************************************************
-    I2C_Write(0xEE,0x9F,0xEF);
-    I2C_Read_8bits();
-    SSPBUFmsb = DATO_I2C_8bits;
-    I2C_Write(0xEE,0x9E,0xEF);
-    I2C_Read_8bits();
-    SSPBUFlsb = DATO_I2C_8bits; 
-    dig_P9 = SSPBUFmsb + SSPBUFlsb;     
+    dig_T1 = cal_data[0]  + (cal_data[1]  = (cal_data[1]<<8));
+    dig_T2 = cal_data[2]  + (cal_data[3]  = (cal_data[3]<<8));
+    dig_T3 = cal_data[4]  + (cal_data[5]  = (cal_data[5]<<8));
+    dig_P1 = cal_data[6]  + (cal_data[7]  = (cal_data[7]<<8));
+    dig_P2 = cal_data[8]  + (cal_data[9]  = (cal_data[9]<<8));
+    dig_P3 = cal_data[10] + (cal_data[11] = (cal_data[11]<<8));
+    dig_P4 = cal_data[12] + (cal_data[13] = (cal_data[13]<<8));
+    dig_P5 = cal_data[14] + (cal_data[15] = (cal_data[15]<<8));
+    dig_P6 = cal_data[16] + (cal_data[17] = (cal_data[17]<<8));
+    dig_P7 = cal_data[18] + (cal_data[19] = (cal_data[19]<<8));
+    dig_P8 = cal_data[20] + (cal_data[21] = (cal_data[21]<<8));
+    dig_P9 = cal_data[22] + (cal_data[23] = (cal_data[23]<<8));    
 }
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 void CALCULO_BMP280(void)
-{
-//******************************************************************************
-    I2C_Write(0xEE,0xFA,0xEF);
-    __delay_ms(7);
-    I2C_Read_8bits();
-    SSPBUFmsb = DATO_I2C_8bits;
-//******************************************************************************
-    I2C_Write(0xEE,0xFB,0xEF);
-    __delay_ms(7);
-    I2C_Read_8bits();
-    SSPBUFlsb = DATO_I2C_8bits;
-//******************************************************************************
-    I2C_Write(0xEE,0xFC,0xEF);
-    __delay_ms(15);
-    I2C_Read_8bits();
-    SSPBUFxsb = DATO_I2C_8bits;     
-//******************************************************************************
-    SSPBUFmsb = SSPBUFmsb <<8;
-    BMP280_S32_t = SSPBUFlsb + SSPBUFmsb;
-    BMP280_S32_t *= 5;
-//******************************************************************************     
+{     
 } 
- */    
+

@@ -67,7 +67,6 @@ void Lcd_inicio_4bits(void)
     Lcd_cmd_data(_ON_LCD,cmd,_4bits);
     Lcd_cmd_data(_CFG_in,cmd,_4bits);
     Lcd_cmd_data(_LCD_CLEAR,cmd,_4bits);
-
 }
 //******************************************************************************
 void Lcd_Write_String(char *a)

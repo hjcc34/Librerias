@@ -5,8 +5,8 @@
  * Created on 22 de noviembre de 2024, 21:15
  */
 
-#ifndef CFG_BMP280_H
-#define	CFG_BMP280_H
+#ifndef BMP280_H
+#define BMP280_H
 
 #include "../../Reloj_V1/RELOJ_LCD_16x2.X/CFG_16F877A.h"
 
@@ -19,21 +19,19 @@
 #define _bmp280_status      0xF3
 #define _bmp280_reg_reset   0xE0
 #define _bmp280_ID          0xD0
+#define _mode_sleep         0x00
+
+unsigned int dig_T1,dig_P1;
+int dig_T2,dig_T3,dig_P2,dig_P3,dig_P4,dig_P5,dig_P6,dig_P7,dig_P8,dig_P9;
+
+int cal_data[24];
 
 void CALIBRATION_BMP280(void);
+char read_xlsb(void);
+int read_lsb(void);
+long read_msb(void);
 void CALCULO_BMP280(void);
 void ini_bmp280 (void);
-
-#ifdef	__cplusplus
-extern "C" {
-#endif
-
-
-
-
-#ifdef	__cplusplus
-}
-#endif
 
 #endif	/* CFG_BMP280_H */
 
