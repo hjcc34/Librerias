@@ -2192,6 +2192,8 @@ long read_msb(void);
 void CALCULO_BMP280(void);
 void ini_bmp280 (void);
 # 30 "./../../Reloj_V1/RELOJ_LCD_16x2.X/CFG_16F877A.h" 2
+# 1 "./CFG_BCD_TO_DEC_TO_BCD.h" 1
+# 31 "./../../Reloj_V1/RELOJ_LCD_16x2.X/CFG_16F877A.h" 2
 # 12 "./CFG_BCD_TO_DEC_TO_BCD.h" 2
 
 unsigned char decenas,unidades,DEC_BCD_RESULTADO,decenasH,unidadesH,decenasH10,unidad,decena,centena,millar,unmillar,dosmillar;
@@ -2201,7 +2203,7 @@ unsigned int variableU,variableD,variableC,variableM,variableUM,variableDM;
 unsigned char BCD_TO_DEC (unsigned char dato);
 void DEC_TO_LCD (unsigned char dato);
 unsigned char DEC_TO_HEX (unsigned char dato);
-void CONVERSOR_HEX_DEC(unsigned int variable);
+void CONVERSOR_HEX_DEC(long variable);
 # 2 "BCD_CONVER.c" 2
 
 
@@ -2269,7 +2271,7 @@ unsigned char BCD_TO_DEC(unsigned char dato)
 
 
 
-void CONVERSOR_HEX_DEC(unsigned int variable)
+void CONVERSOR_HEX_DEC(long variable)
 {
 
     variableU = variable;

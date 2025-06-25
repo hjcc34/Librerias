@@ -9,4 +9,5 @@ CFG_BCD_TO_DEC_TO_BCD.h  \
 ../../Reloj_V1/RELOJ_LCD_16x2.X/../../Librerias/DS1307/DS1307.X/CFG_DS1307.h  \
 ../../Reloj_V1/RELOJ_LCD_16x2.X/../../Librerias/DS1307/DS1307.X/../../../Reloj_V1/RELOJ_LCD_16x2.X/CFG_16F877A.h  \
 ../../Reloj_V1/RELOJ_LCD_16x2.X/../../Librerias/BMP280.X/CFG_BMP280.h  \
-../../Reloj_V1/RELOJ_LCD_16x2.X/../../Librerias/BMP280.X/../../Reloj_V1/RELOJ_LCD_16x2.X/CFG_16F877A.h 
+../../Reloj_V1/RELOJ_LCD_16x2.X/../../Librerias/BMP280.X/../../Reloj_V1/RELOJ_LCD_16x2.X/CFG_16F877A.h  \
+../../Reloj_V1/RELOJ_LCD_16x2.X/../../Librerias/Conversor_unit.X/CFG_BCD_TO_DEC_TO_BCD.h 

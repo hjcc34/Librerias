@@ -517,36 +517,36 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :UE 107 ]
 }
 "68
-[; ;BCD_CONVER.c: 68: void CONVERSOR_HEX_DEC(unsigned int variable)
-[v _CONVERSOR_HEX_DEC `(v ~T0 @X0 1 ef1`ui ]
+[; ;BCD_CONVER.c: 68: void CONVERSOR_HEX_DEC(long variable)
+[v _CONVERSOR_HEX_DEC `(v ~T0 @X0 1 ef1`l ]
 "69
 [; ;BCD_CONVER.c: 69: {
 {
 [e :U _CONVERSOR_HEX_DEC ]
 "68
-[; ;BCD_CONVER.c: 68: void CONVERSOR_HEX_DEC(unsigned int variable)
-[v _variable `ui ~T0 @X0 1 r1 ]
+[; ;BCD_CONVER.c: 68: void CONVERSOR_HEX_DEC(long variable)
+[v _variable `l ~T0 @X0 1 r1 ]
 "69
 [; ;BCD_CONVER.c: 69: {
 [f ]
 "71
 [; ;BCD_CONVER.c: 71:     variableU = variable;
-[e = _variableU _variable ]
+[e = _variableU -> _variable `ui ]
 "72
 [; ;BCD_CONVER.c: 72:     variableD = variable;
-[e = _variableD _variable ]
+[e = _variableD -> _variable `ui ]
 "73
 [; ;BCD_CONVER.c: 73:     variableC = variable;
-[e = _variableC _variable ]
+[e = _variableC -> _variable `ui ]
 "74
 [; ;BCD_CONVER.c: 74:     variableM = variable;
-[e = _variableM _variable ]
+[e = _variableM -> _variable `ui ]
 "75
 [; ;BCD_CONVER.c: 75:     variableUM = variable;
-[e = _variableUM _variable ]
+[e = _variableUM -> _variable `ui ]
 "76
 [; ;BCD_CONVER.c: 76:     variableDM = variable;
-[e = _variableDM _variable ]
+[e = _variableDM -> _variable `ui ]
 "78
 [; ;BCD_CONVER.c: 78:     variableDM /= 100000;
 [e =/ _variableDM -> 100000 `l ]
