@@ -62,8 +62,28 @@ long read_msb(void)
     return msb;
 }
 //------------------------------------------------------------------------------
-void CALCULO_BMP280(void)
+int16_t CALCULO_BMP280(void)
 {
-    
+    I2C_Write(_bmp280_w,_bmp280_temp_xlsb,_bmp280_r);
+    xlsb = I2C_Read_8bits();
+//------------------------------------------------------------------------------
+    I2C_Write(_bmp280_w,_bmp280_temp_lsb,_bmp280_r);
+    lsb = I2C_Read_8bits();
+//------------------------------------------------------------------------------
+    I2C_Write(_bmp280_w,_bmp280_temp_msb,_bmp280_r);
+    msb = I2C_Read_8bits();    
+//------------------------------------------------------------------------------    
+    int32_t adc_T = ((uint32_t)msb << 12) | ((uint32_t)lsb << 4) | (xlsb >> 4);
+
+    int32_t var1 = ((((adc_T >> 3) - ((int32_t)dig_T1 << 1))) * ((int32_t)dig_T2)) >> 11;
+    int32_t var2 = (((((adc_T >> 4) - ((int32_t)dig_T1)) * ((adc_T >> 4) - ((int32_t)dig_T1))) >> 12) * ((int32_t)dig_T3)) >> 14;
+
+    t_fine = var1 + var2;
+
+    int32_t temp = (t_fine * 5 + 128) >> 8;  // En décimas de °C
+    /*
+    return (int16_t)temp; // Devuelve entero: 2534 representa 25.34°C 
+     */
+    return temp = 54268;
 } 
 

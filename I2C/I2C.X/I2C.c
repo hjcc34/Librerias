@@ -117,13 +117,10 @@ void I2C_Write(unsigned char DirW,unsigned char CmdW,unsigned char DirW2)
     }
     I2C_Check();                                                                //verifico el bus
     SSPBUF = DirW;                                                              //ingreso direccion esclavo
-    __delay_us(500);
     while (SSPSTATbits.BF == 1)                                                 //verifico si termino la transmision
     {
     }
     I2C_Check();
-    TMR1L = 0x18;
-    TMR1H = 0xFC;
     while (SSPCON2bits.ACKSTAT == 1 && re == 0)                                  //verifico reconocimiento
     {
         T1CONbits.TMR1ON = 1;
@@ -132,21 +129,16 @@ void I2C_Write(unsigned char DirW,unsigned char CmdW,unsigned char DirW2)
             PIR1bits.TMR1IF = 0;
             ++re;
             T1CONbits.TMR1ON = 0;
-            TMR1L = 0x18;
-            TMR1H = 0xFC;
         }
     }
     T1CONbits.TMR1ON = 0;
 //******************************************************************************    
     I2C_Check();                                                                //verifico el bus
     SSPBUF = CmdW;                                                              //ingreso comando para esclavo
-    __delay_us(500);
     while (SSPSTATbits.BF == 1)                                                 //verifico si termino la transmision
     {
     }
     I2C_Check();
-    TMR1L = 0x18;
-    TMR1H = 0xFC;
     while (SSPCON2bits.ACKSTAT == 1 && re == 1)                                  //verifico reconocimiento
     {
         T1CONbits.TMR1ON = 1;
@@ -155,28 +147,22 @@ void I2C_Write(unsigned char DirW,unsigned char CmdW,unsigned char DirW2)
             PIR1bits.TMR1IF = 0;
             ++re;
             T1CONbits.TMR1ON = 0;
-            TMR1L = 0x18;
-            TMR1H = 0xFC;
         }
     }
     T1CONbits.TMR1ON = 0;
 //******************************************************************************    
     I2C_Check();                                                                //verifico el bus
     SSPCON2bits.RSEN = 1;                                                       //reinicio start
-    __delay_us(5);
     while (SSPCON2bits.RSEN == 0)                                               //verifico el start
     {
     }
 //******************************************************************************    
     I2C_Check();                                                                //verifico el bus
     SSPBUF = DirW2;                                                             //ingreso direccion esclavo
-    __delay_us(500);
     while (SSPSTATbits.BF == 1)                                                 //verifico si termino la transmision
     {
     }
     I2C_Check();                                                                //verifico el bus
-    TMR1L = 0x18;
-    TMR1H = 0xFC;
     while (SSPCON2bits.ACKSTAT == 1 && re == 2)                                  //verifico reconocimiento
     {
         T1CONbits.TMR1ON = 1;
@@ -185,8 +171,6 @@ void I2C_Write(unsigned char DirW,unsigned char CmdW,unsigned char DirW2)
             PIR1bits.TMR1IF = 0;
             ++re;
             T1CONbits.TMR1ON = 0;
-            TMR1L = 0x18;
-            TMR1H = 0xFC;
         }
     }
     T1CONbits.TMR1ON = 0;    
@@ -198,22 +182,19 @@ unsigned char I2C_Read_8bits(void)
 { 
     I2C_Check();                                                                //verifico el bus
     SSPCON2bits.RCEN = 1;                                                       //configuro maestro como recepcion
-    __delay_us(5);
     while (SSPCON2bits.RCEN == 1)                                               //verifico si termino la recepcion
     {
     }
     I2C_Check();                                                                //verifico el bus
     SSPCON2bits.ACKDT = 1;                                                      //acknowledge
-    __delay_us(5);
     I2C_Check();                                                                //verifico el bus
     SSPCON2bits.ACKEN = 1;                                                      //Acknowledge secuencia
-    __delay_us(5);
     I2C_Check();                                                                //verifico el bus
     SSPCON2bits.PEN = 1;                                                        //activo stop
-    __delay_us(5);
     while (SSPSTATbits.P == 0)                                                  //verifico si termino el stop
     {
     }
+    DATO_I2C_8bits = SSPBUF;
     return DATO_I2C_8bits;
 }
 //------------------------------------------------------------------------------
