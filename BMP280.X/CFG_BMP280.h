@@ -27,22 +27,17 @@
 #define _bmp280_pres_lsb    0xF8
 #define _bmp280_pres_msb    0xF7
 
-char xlsb;
-unsigned int dig_T1,dig_P1;
-int dig_T2,dig_T3,dig_P2,dig_P3,dig_P4,dig_P5,dig_P6,dig_P7,dig_P8,dig_P9,lsb;
+uint16_t dig_T1;
+int16_t dig_T2, dig_T3;
 
-long msb;
+int32_t var1, var2, t_fine, temp;
 
-int32_t adc_T,var1,var2,t_fine,temp;
+int32_t adc_T = 0;
 
-
-int cal_data[24];
+uint8_t cal_data[3];
 
 void CALIBRATION_BMP280(void);
-char read_xlsb(void);
-int read_lsb(void);
-long read_msb(void);
-int16_t CALCULO_BMP280(void);
+int32_t CALCULO_BMP280(void);
 void ini_bmp280 (void);
 
 #endif	/* CFG_BMP280_H */

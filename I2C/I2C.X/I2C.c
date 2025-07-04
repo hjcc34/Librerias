@@ -178,7 +178,7 @@ void I2C_Write(unsigned char DirW,unsigned char CmdW,unsigned char DirW2)
 //------------------------------------------------------------------------------
 //---------------------------I2C READ 8 BITS------------------------------------
 //------------------------------------------------------------------------------
-unsigned char I2C_Read_8bits(void)
+int8_t I2C_Read_8bits(void)
 { 
     I2C_Check();                                                                //verifico el bus
     SSPCON2bits.RCEN = 1;                                                       //configuro maestro como recepcion
@@ -186,15 +186,58 @@ unsigned char I2C_Read_8bits(void)
     {
     }
     I2C_Check();                                                                //verifico el bus
-    SSPCON2bits.ACKDT = 1;                                                      //acknowledge
+    SSPCON2bits.ACKDT = 1;                                                      // 1 = NACK (NOACK)
     I2C_Check();                                                                //verifico el bus
-    SSPCON2bits.ACKEN = 1;                                                      //Acknowledge secuencia
+    SSPCON2bits.ACKEN = 1;                                                      // Inicia la secuencia
+    while(SSPCON2bits.ACKEN);                                                   // Esperar hasta que termino  
     I2C_Check();                                                                //verifico el bus
     SSPCON2bits.PEN = 1;                                                        //activo stop
     while (SSPSTATbits.P == 0)                                                  //verifico si termino el stop
     {
     }
-    DATO_I2C_8bits = SSPBUF;
-    return DATO_I2C_8bits;
-}
+    return SSPBUF;
+}    
 //------------------------------------------------------------------------------
+//---------------------------I2C READ 8 BITS 3 bytes----------------------------
+//------------------------------------------------------------------------------
+void I2C_Read_8bits_3bytes(void)
+{
+    // Leer MSB (primer byte)
+    I2C_Check();
+    SSPCON2bits.RCEN = 1;
+    while (SSPCON2bits.RCEN);
+    DATO_READ_8b_3 = SSPBUF;  // ? temp_msb
+    I2C_Check();
+    SSPCON2bits.ACKDT = 0;   // ACK para seguir leyendo
+    I2C_Check();
+    SSPCON2bits.ACKEN = 1;
+    while (SSPCON2bits.ACKEN);
+    I2C_Check();
+
+    // Leer LSB (segundo byte)
+    SSPCON2bits.RCEN = 1;
+    while (SSPCON2bits.RCEN);
+    DATO_READ_8b_2 = SSPBUF;  // ? temp_lsb    
+    I2C_Check();
+    SSPCON2bits.ACKDT = 0;   // ACK para seguir leyendo
+    I2C_Check();
+    SSPCON2bits.ACKEN = 1;
+    while (SSPCON2bits.ACKEN);
+    I2C_Check();
+
+    // Leer XLSB (tercer byte)
+    SSPCON2bits.RCEN = 1;
+    while (SSPCON2bits.RCEN);
+    DATO_READ_8b_1 = SSPBUF;  // ? temp_xlsb    
+    I2C_Check();
+    SSPCON2bits.ACKDT = 1;   // NACK para terminar lectura
+    I2C_Check();
+    SSPCON2bits.ACKEN = 1;
+    while (SSPCON2bits.ACKEN);
+    I2C_Check();
+
+    // Stop condition
+    SSPCON2bits.PEN = 1;
+    while (!SSPSTATbits.P);
+}
+
