@@ -176,6 +176,63 @@ void I2C_Write(unsigned char DirW,unsigned char CmdW,unsigned char DirW2)
     T1CONbits.TMR1ON = 0;    
 }
 //------------------------------------------------------------------------------
+//-----------------------------I2C WRITE AHT20----------------------------------
+//------------------------------------------------------------------------------
+void I2C_Write_AHT20(uint8_t DirW,uint8_t CmdW,uint8_t Par1)
+{
+    I2C_Check();
+    SSPCON2bits.SEN = 1;                                                        //Activo el start
+    __delay_us(5);
+    while (SSPCON2bits.SEN == 1)                                                //verifico el start
+    {
+    }
+    I2C_Check();                                                                //verifico el bus
+    SSPBUF = DirW;                                                              //ingreso direccion esclavo
+    while (SSPSTATbits.BF == 1)                                                 //verifico si termino la transmision
+    {
+    }
+    I2C_Check();
+    while (SSPCON2bits.ACKSTAT == 1 && re == 0)                                 //verifico reconocimiento
+    {
+    }
+//******************************************************************************    
+    I2C_Check();                                                                //verifico el bus
+    SSPBUF = CmdW;                                                              //ingreso comando para esclavo
+    while (SSPSTATbits.BF == 1)                                                 //verifico si termino la transmision
+    {
+    }
+    I2C_Check();
+    while (SSPCON2bits.ACKSTAT == 1 && re == 1)                                 //verifico reconocimiento
+    {
+    }  
+//******************************************************************************    
+    I2C_Check();                                                                //verifico el bus
+    SSPBUF = Par1;                                                              //ingreso comando para esclavo
+    while (SSPSTATbits.BF == 1)                                                 //verifico si termino la transmision
+    {
+    }
+    I2C_Check();
+    while (SSPCON2bits.ACKSTAT == 1 && re == 1)                                  //verifico reconocimiento
+    {
+    }
+//******************************************************************************    
+    I2C_Check();                                                                //verifico el bus
+    SSPBUF = AHT20_P2;                                                              //ingreso comando para esclavo
+    while (SSPSTATbits.BF == 1)                                                 //verifico si termino la transmision
+    {
+    }
+    I2C_Check();
+    while (SSPCON2bits.ACKSTAT == 1 && re == 1)                                  //verifico reconocimiento
+    {
+    }    
+//******************************************************************************        
+    I2C_Check();                                                                //verifico el bus
+    SSPCON2bits.PEN = 1;                                                        //activo stop
+    while (SSPSTATbits.P == 0)                                                  //verifico si termino el stop
+    {
+    }    
+}
+//------------------------------------------------------------------------------
 //---------------------------I2C READ 8 BITS------------------------------------
 //------------------------------------------------------------------------------
 int8_t I2C_Read_8bits(void)
@@ -204,9 +261,9 @@ void I2C_Read_8bits_3bytes(void)
 {
     // Leer MSB (primer byte)
     I2C_Check();
-    SSPCON2bits.RCEN = 1;
-    while (SSPCON2bits.RCEN);
-    DATO_READ_8b_3 = SSPBUF;  // ? temp_msb
+    SSPCON2bits.RCEN = 1;                                                       //Habilito al master como receptor
+    while (SSPCON2bits.RCEN);                                                   //Espero
+    DATO_READ_8b_3 = SSPBUF;                                                    //Se guarda dato en el byte MSB
     I2C_Check();
     SSPCON2bits.ACKDT = 0;   // ACK para seguir leyendo
     I2C_Check();
@@ -235,6 +292,84 @@ void I2C_Read_8bits_3bytes(void)
     SSPCON2bits.ACKEN = 1;
     while (SSPCON2bits.ACKEN);
     I2C_Check();
+
+    // Stop condition
+    SSPCON2bits.PEN = 1;
+    while (!SSPSTATbits.P);
+}
+//------------------------------------------------------------------------------
+//---------------------------I2C READ 8 BITS 6 bytes----------------------------
+//------------------------------------------------------------------------------
+void I2C_Read_8bits_6bytes(void)
+{
+    // Leer byte 6
+    I2C_Check();
+    SSPCON2bits.RCEN = 1;                                                       //Habilito al master como receptor
+    while (SSPCON2bits.RCEN);                                                   //Espero
+    byte_0 = SSPBUF;                                                    //Se guarda dato en el byte MSB
+    I2C_Check();
+    SSPCON2bits.ACKDT = 0;   // ACK para seguir leyendo
+    I2C_Check();
+    SSPCON2bits.ACKEN = 1;
+    while (SSPCON2bits.ACKEN);
+    I2C_Check();
+
+    // Leer LSB (segundo byte)
+    SSPCON2bits.RCEN = 1;
+    while (SSPCON2bits.RCEN);
+    byte_1 = SSPBUF;  // ? temp_lsb    
+    I2C_Check();
+    SSPCON2bits.ACKDT = 0;   // ACK para seguir leyendo
+    I2C_Check();
+    SSPCON2bits.ACKEN = 1;
+    while (SSPCON2bits.ACKEN);
+    I2C_Check();
+    
+
+
+    // Leer LSB (segundo byte)
+    SSPCON2bits.RCEN = 1;
+    while (SSPCON2bits.RCEN);
+    byte_2 = SSPBUF;  // ? temp_lsb    
+    I2C_Check();
+    SSPCON2bits.ACKDT = 0;   // ACK para seguir leyendo
+    I2C_Check();
+    SSPCON2bits.ACKEN = 1;
+    while (SSPCON2bits.ACKEN);
+    I2C_Check();
+
+    // Leer LSB (segundo byte)
+    SSPCON2bits.RCEN = 1;
+    while (SSPCON2bits.RCEN);
+    byte_3 = SSPBUF;  // ? temp_lsb    
+    I2C_Check();
+    SSPCON2bits.ACKDT = 0;   // ACK para seguir leyendo
+    I2C_Check();
+    SSPCON2bits.ACKEN = 1;
+    while (SSPCON2bits.ACKEN);
+    I2C_Check();
+
+    // Leer LSB (segundo byte)
+    SSPCON2bits.RCEN = 1;
+    while (SSPCON2bits.RCEN);
+    byte_4 = SSPBUF;  // ? temp_lsb    
+    I2C_Check();
+    SSPCON2bits.ACKDT = 0;   // ACK para seguir leyendo
+    I2C_Check();
+    SSPCON2bits.ACKEN = 1;
+    while (SSPCON2bits.ACKEN);
+    I2C_Check();    
+    
+    // Leer XLSB (tercer byte)
+    SSPCON2bits.RCEN = 1;
+    while (SSPCON2bits.RCEN);
+    byte_5 = SSPBUF;  // ? temp_xlsb    
+    I2C_Check();
+    SSPCON2bits.ACKDT = 1;   // NACK para terminar lectura
+    I2C_Check();
+    SSPCON2bits.ACKEN = 1;
+    while (SSPCON2bits.ACKEN);
+    I2C_Check();    
 
     // Stop condition
     SSPCON2bits.PEN = 1;
