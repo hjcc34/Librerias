@@ -16,12 +16,18 @@ uint32_t DATO_READ_8b_3,DATO_READ_8b_2,DATO_READ_8b_1;
 
 void I2C_Check(void);                                                           
 void I2C_Write(unsigned char DirW,unsigned char CmdW,unsigned char DirW2);
-void I2C_Write_AHT20(uint8_t DirW,uint8_t CmdW,uint8_t Par1);
 int8_t I2C_Read_8bits(void);
 void I2C_Read_8bits_3bytes(void);
 void I2C_Read_8bits_6bytes(void);
 void I2C_Cmd(unsigned char Dir,unsigned char Cfg,unsigned char Cmd);
 void I2C_Initialize(void);
+void I2C_Stop(void);
+void I2C_Start(void);
+void I2C_Write_(uint8_t direccion);
+void I2C_Rstart(void);
+void I2C_Lec_fin(void);
+uint8_t I2C_RCEP(void);
+void I2C_Lec_seg(void);
 
 #endif	/* CFG_I2C_H */
 

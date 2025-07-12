@@ -17,12 +17,20 @@
 #define AHT20_P1    0x08
 #define AHT20_P2    0x00
 #define AHT20_P3    0x33
+#define AHT20_reg   0x38
 
 #ifdef	__cplusplus
 extern "C" {
 #endif
+    
+uint8_t b_0,b_1,b_2,b_3,b_4,b_5;
 
-void ini_AHT20(void);
+uint32_t RH,H1,H2,H3,raw,humedad;
+    
+uint8_t ver_cal_AHT20(void);
+void mes_AHT20(void);
+void med_AHT20(void);
+void cal_AHT20(void);
 
 #ifdef	__cplusplus
 }
