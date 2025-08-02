@@ -45,7 +45,7 @@ void DEC_TO_LCD(unsigned char dato)                                             
 //******************************************************************************
 //***********************Conversor decimal a BCD********************************
 //******************************************************************************
-unsigned char BCD_TO_DEC(unsigned char dato)
+void BCD_TO_DEC(uint8_t dato)
 {
     decenas = dato;
     unidades = dato;
@@ -59,8 +59,6 @@ unsigned char BCD_TO_DEC(unsigned char dato)
         unidades /= 0x10;
     }
     unidades += 0x30;
-//------------------------------------------------------------------------------    
-    return decenas,unidades;
 }
 //******************************************************************************
 //*********************Conversor Hexadecimal a Decimal**************************

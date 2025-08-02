@@ -14,7 +14,7 @@ unsigned char decenas,unidades,DEC_BCD_RESULTADO,decenasH,unidadesH,decenasH10,u
 
 unsigned int variableU,variableD,variableC,variableM,variableUM,variableDM; 
 
-unsigned char BCD_TO_DEC (unsigned char dato);
+void BCD_TO_DEC (uint8_t dato);
 void DEC_TO_LCD (unsigned char dato);
 unsigned char DEC_TO_HEX (unsigned char dato);
 void CONVERSOR_HEX_DEC(unsigned int variable); 
