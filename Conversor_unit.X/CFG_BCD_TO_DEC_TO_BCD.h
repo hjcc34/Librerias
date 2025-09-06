@@ -8,16 +8,22 @@
 #ifndef CFG_BCD_TO_DEC_TO_BCD_H
 #define	CFG_BCD_TO_DEC_TO_BCD_H
 
-#include "../../Reloj_V1/RELOJ_LCD_16x2.X/CFG_16F877A.h"
+#include "../../FVV_V1.0/FV.X/CFG_16F877A.h"
 
 unsigned char decenas,unidades,DEC_BCD_RESULTADO,decenasH,unidadesH,decenasH10,unidad,decena,centena,millar,unmillar,dosmillar;
 
-unsigned int variableU,variableD,variableC,variableM,variableUM,variableDM; 
+unsigned int variableU,variableD,variableC,variableM,variableUM,variableDM;
+
+int ResultadoINA_A,ResultadoINA_A_NEG;
+
+long ResultadoINA,signo,ResultadoINA_P;
 
 void BCD_TO_DEC (uint8_t dato);
 void DEC_TO_LCD (unsigned char dato);
 unsigned char DEC_TO_HEX (unsigned char dato);
-void CONVERSOR_HEX_DEC(unsigned int variable); 
+void CONVERSOR_HEX_DEC(unsigned int variable);
+int Resultado_INA219(void);
+int Resultado_INA219_A_P(void);
 
 #endif	/* CFG_BCD_TO_DEC_TO_BCD_H */
 

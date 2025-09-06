@@ -8,11 +8,13 @@
 #ifndef CFG_I2C_H
 #define	CFG_I2C_H
 
-#include "../../../Reloj_V1/RELOJ_LCD_16x2.X/CFG_16F877A.h"
+#include "../../../FVV_V1.0/FV.X/CFG_16F877A.h"
 
 uint8_t DATO_I2C_8bits,re,byte_6,byte_5,byte_4,byte_3,byte_2,byte_1,byte_0;
 
 uint32_t DATO_READ_8b_3,DATO_READ_8b_2,DATO_READ_8b_1;
+
+long I2CDATOLSB,I2CDATOMSB;
 
 void I2C_Check(void);                                                           
 void I2C_Write(unsigned char DirW,unsigned char CmdW,unsigned char DirW2);
@@ -28,6 +30,9 @@ void I2C_Rstart(void);
 void I2C_Lec_fin(void);
 uint8_t I2C_RCEP(void);
 void I2C_Lec_seg(void);
+void I2C_PUNTERO(unsigned char address, unsigned char puntero);
+void I2C_CFG_REG(unsigned char address,unsigned char registro,unsigned char dataM,unsigned char dataL);
+long I2C_Lectura(long address);
 
 #endif	/* CFG_I2C_H */
 

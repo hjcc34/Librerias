@@ -103,3 +103,19 @@ void CONVERSOR_HEX_DEC(unsigned int variable)
     unidad += 0x30;
 } 
 //------------------------------------------------------------------------------
+int Resultado_INA219(void)
+{
+    I2CDATOLSB = I2CDATOLSB>>3;
+    I2CDATOMSB = I2CDATOMSB<<8;
+    ResultadoINA = I2CDATOMSB + I2CDATOLSB;
+    ResultadoINA = ResultadoINA>>3;
+    ResultadoINA *= 4;
+}
+//------------------------------------------------------------------------------
+int Resultado_INA219_A_P(void)
+{
+    I2CDATOMSB = I2CDATOMSB<<8;
+    ResultadoINA_A = I2CDATOMSB + I2CDATOLSB;
+    ResultadoINA_P = I2CDATOMSB + I2CDATOLSB;
+    signo = I2CDATOMSB + I2CDATOLSB;
+}

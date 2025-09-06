@@ -31,7 +31,7 @@
 #ifndef CFG_RS232_H
 #define	CFG_RS232_H
 
-#include "../../Reloj_V1/RELOJ_LCD_16x2.X/CFG_16F877A.h"
+#include "../../../../Mis Proyectos/Reloj_V1/RELOJ_LCD_16x2.X/CFG_PIC16F877A.h"
 
 #define LF          0x0A
 #define CR          0x0D

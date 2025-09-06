@@ -8,7 +8,7 @@
 #ifndef CFG_DHT11_H
 #define	CFG_DHT11_H
 
-#include "../../Librerias/../Reloj_V1/RELOJ_LCD_16x2.X/CFG_16F877A.h"
+#include "../../../../Mis Proyectos/Reloj_V1/RELOJ_LCD_16x2.X/CFG_PIC16F877A.h"
 
 #define DHT11          PORTCbits.RC0                                            //Tecla OK 
 

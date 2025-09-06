@@ -8,7 +8,8 @@
 #ifndef AHT20_CFG_H
 #define	AHT20_CFG_H
 
-#include "../../Reloj_V1/RELOJ_LCD_16x2.X/CFG_16F877A.h"
+#include "../../../../Mis Proyectos/Reloj_V1/RELOJ_LCD_16x2.X/CFG_PIC16F877A.h"
+
 
 #define AHT20_W     0x70
 #define AHT20_R     0x71

@@ -405,3 +405,142 @@ void I2C_Lec_seg(void)
     SSPCON2bits.ACKEN = 1;
     while (SSPCON2bits.ACKEN);
 }
+//------------------------------------------------------------------------------
+//-----------------------------I2C CFG REG--------------------------------------
+//------------------------------------------------------------------------------
+void I2C_CFG_REG(unsigned char address,unsigned char registro,unsigned char dataM,unsigned char dataL)
+{
+    I2C_Check();
+    SSPCON2bits.SEN = 1;                //Activo el start
+    __delay_us(5);
+    while (SSPCON2bits.SEN == 1)        //verifico el start
+    {
+    }
+    I2C_Check();
+    SSPBUF = address;                       //ingreso direccion esclavo
+    __delay_us(500);
+    while (SSPSTATbits.BF == 1)         //verifico si termino la transmision
+    {
+    }
+    I2C_Check();
+    while (SSPCON2bits.ACKSTAT == 1)    //verifico reconocimiento
+    {
+    }
+    I2C_Check();                        //verifico el bus
+    SSPBUF = registro;                       //ingreso configuracion para esclavo
+    __delay_us(500);
+    while (SSPSTATbits.BF == 1)         //verifico si termino la transmision
+    {
+    }
+    while (SSPCON2bits.ACKSTAT == 1)    //verifico reconocimiento
+    {
+    }
+    I2C_Check();                        //verifico el bus
+    SSPBUF = dataM;                       //ingreso comando para esclavo
+    __delay_us(500);
+    while (SSPSTATbits.BF == 1)         //verifico si termino la transmision
+    {
+    }
+    while (SSPCON2bits.ACKSTAT == 1)    //verifico reconocimiento
+    {
+    }
+    I2C_Check();                        //verifico el bus
+    SSPBUF = dataL;                       //ingreso comando para esclavo
+    __delay_us(500);
+    while (SSPSTATbits.BF == 1)         //verifico si termino la transmision
+    {
+    }
+    while (SSPCON2bits.ACKSTAT == 1)    //verifico reconocimiento
+    {
+    }
+}
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//-----------------------------I2C puntero--------------------------------------
+//------------------------------------------------------------------------------
+void I2C_PUNTERO(unsigned char address, unsigned char puntero)
+{
+    I2C_Check();
+    SSPCON2bits.SEN = 1;                //Activo el start
+    __delay_us(5);
+    while (SSPCON2bits.SEN == 1)        //verifico el start
+    {
+    }
+    I2C_Check();
+    SSPBUF = address;                       //ingreso direccion esclavo
+    __delay_us(500);
+    while (SSPSTATbits.BF == 1)         //verifico si termino la transmision
+    {
+    }
+    I2C_Check();
+    while (SSPCON2bits.ACKSTAT == 1)    //verifico reconocimiento
+    {
+    }
+    I2C_Check();                        //verifico el bus
+    SSPBUF = puntero;                       //ingreso configuracion para esclavo
+    __delay_us(500);
+    while (SSPSTATbits.BF == 1)         //verifico si termino la transmision
+    {
+    }
+    while (SSPCON2bits.ACKSTAT == 1)    //verifico reconocimiento
+    {
+    }
+    I2C_Check();                        //verifico el bus
+}
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//-----------------------------I2C lectura----------------------------------------
+//------------------------------------------------------------------------------
+long I2C_Lectura(long address)
+{
+    I2C_Check();
+    SSPCON2bits.SEN = 1;                //Activo el start
+    __delay_us(5);
+    while (SSPCON2bits.SEN == 1)        //verifico el start
+    {
+    }
+    I2C_Check();                        //verifico el bus
+    SSPBUF = address;                       //ingreso direccion esclavo
+    __delay_us(500);
+    while (SSPSTATbits.BF == 1)         //verifico si termino la transmision
+    {
+    }
+//--------------------------------MSB-------------------------------------------    
+    I2C_Check();                            //verifico el bus
+    SSPCON2bits.RCEN = 1;                   //configuro maestro como recepcion
+    __delay_us(5);
+    while (SSPCON2bits.RCEN == 1)           //verifico si termino la recepcion
+    {
+    }
+    I2CDATOMSB = SSPBUF;
+    I2C_Check();                            //verifico el bus
+    SSPCON2bits.ACKDT =0;                   //acknowledge
+    __delay_us(5);
+    I2C_Check();                            //verifico el bus
+    SSPCON2bits.ACKEN = 1;                  //Acknowledge secuencia
+    __delay_us(5);
+    while (SSPCON2bits.ACKEN == 1)
+    {
+        
+    }
+//-------------------------------LSB--------------------------------------------
+    I2C_Check();                            //verifico el bus
+    SSPCON2bits.RCEN = 1;                   //configuro maestro como recepcion
+    __delay_us(5);
+    while (SSPCON2bits.RCEN == 1)           //verifico si termino la recepcion
+    {
+    }
+    I2CDATOLSB = SSPBUF;
+    I2C_Check();                            //verifico el bus
+    SSPCON2bits.ACKDT =1;                   //acknowledge
+    __delay_us(5);
+    I2C_Check();                            //verifico el bus
+    SSPCON2bits.ACKEN = 1;                  //Acknowledge secuencia
+    __delay_us(5);
+    while (SSPCON2bits.ACKEN == 1)
+    {
+        
+    }
+    return I2CDATOLSB,I2CDATOMSB;
+}    
+
